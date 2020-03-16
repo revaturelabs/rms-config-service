@@ -4,8 +4,10 @@ server:
 spring:
   application:
     name: config-service
+  profiles:
+    active: native
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/revaturelabs/rms-configuration-repo
+        native:
+          search-locations: classpath:/configurations
