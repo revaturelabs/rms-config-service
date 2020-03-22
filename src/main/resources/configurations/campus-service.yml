@@ -1,6 +1,15 @@
 server:
   port: 10001
 
+spring:
+  profiles:
+    active: dev
+  data:
+    mongodb:
+      database: rms-campus
+      host: localhost
+      port: 27017
+
 eureka:
   client:
     enabled: true

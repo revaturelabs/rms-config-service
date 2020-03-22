@@ -1,6 +1,10 @@
 server:
   port: 10004
 
+spring:
+  profiles:
+    active: dev
+
 eureka:
   client:
     enabled: true
