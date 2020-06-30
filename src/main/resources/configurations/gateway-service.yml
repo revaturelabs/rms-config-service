@@ -2,13 +2,45 @@ server:
   port: 8080
 
 spring:
-  profiles:
-    active: dev
-
-eureka:
-  client:
-    enabled: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
-    fetch-registry: false
-    register-with-eureka: true
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders:
+              - content-type
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+      routes:
+        - id: campus-service
+          uri: lb://campus-service
+          predicates:
+            - Path=/campus/**
+          filters:
+            - RewritePath=/campus/(?<path>.*), /$\{path}
+        - id: employee-service
+          uri: lb://employee-service
+          predicates:
+            - Path=/employee/**
+          filters:
+            - RewritePath=/employee/(?<path>.*), /$\{path}
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/(?<path>.*), /$\{path}
+        - id: search-service
+          uri: lb://search-service
+          predicates:
+            - Path=/search/**
+          filters:
+            - RewritePath=/search/(?<path>.*), /$\{path}
